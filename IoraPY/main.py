@@ -58,9 +58,9 @@ for spr in level1.boxes:
 player = player.player('Character/DownAnim/Down2.png', obstacles, (width/2, height-50))
 allSprites.add(player)
 heroGroup = pygame.sprite.Group(player)
-for key in items:
-	key.target = player
-	allSprites.add(key)
+for chest in items:
+	chest.target = player
+	allSprites.add(chest)
 for enemy in enemies:
 	enemy.target = player
 	allSprites.add(enemy)

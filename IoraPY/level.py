@@ -1,6 +1,7 @@
 import pygame
 import sprites
 import projectiles
+import chest
 import pygame
 import enemy
 
@@ -37,7 +38,7 @@ class level():
 			for y in x:
 				print(y)
 				if y is '*':
-					self.items.append(sprites.sprites('Obstacles/chest.png', (xSpot, ySpot)))
+					self.items.append(chest.chest('Obstacles/chest.png', (xSpot, ySpot), self.boxes))
 				xSpot+=48
 			xSpot=0
 			ySpot+=58

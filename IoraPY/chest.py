@@ -2,17 +2,33 @@ import pygame
 import player
 import sprites
 
-class key(sprites.sprites):
+class chest(sprites.sprites):
 
-	def __init__(self, image, position):
+	def __init__(self, image, position, obstacles):
 		sprites.sprites.__init__(self, image, position)
-		self.target = ""
+		self.speed = 1
+		self.target = "" #Begins with none -- defined by main.py
+		self.obstacles = obstacles
 
 	def update(self, *args):
-		collision = self.rect.colliderect(self.target.rect) #Check collision with target (player)
-		if collision:
-			self.kill()
-			self.rect.center = (-55,-55)
+		if self.target.alive(): #Don't do anything if the target (player) is dead.
+			collision = self.rect.colliderect(self.target.rect) #Check collision with target (player)
+			if collision: #If no collision, move...
+				self.kill()
+				self.rect.center = (-55,-55) #Put self out-of-bounds -- but not (-5,-5)
+				self.target.health -= 100 #Assumes target has HP (like player does)
+
+	def inBoundsDown(self):
+		return self.rect.bottom < 480-16 and not self.checkTop()
+
+	def inBoundsUp(self):
+		return self.rect.top > 16 and not self.checkBottom()
+
+	def inBoundsLeft(self):
+		return self.rect.left > 16 and not self.checkRight()
+
+	def inBoundsRight(self):
+		return self.rect.right < 640-16 and not self.checkLeft()
 
 	def checkLeft(self):
 		hit = False
