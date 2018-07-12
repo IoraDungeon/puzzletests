@@ -1,4 +1,3 @@
-# Main
-Repo for where our final code will be
-
-NOTE: For the images, i'm using the direct path. Will have to change that soon so it works on any machine. If you download the files, make sure to use your own path, or your own way of using "image.load()"
+# Puzzle World
+I've chopped up a ton of code while I've been getting started on these puzzles
+so I'll store my files here for all to see.
