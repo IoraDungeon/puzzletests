@@ -38,8 +38,8 @@ L1 = [['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-','-','-','!
 allSprites = pygame.sprite.Group()
 enemies = []
 items = []
-exit = []
-level1 = level.level(L1, enemies,items,exit)
+por = []
+level1 = level.level(L1, enemies,items,por)
 level1.makeLevel()
 element = ['projectiles/fireProj.png', 'projectiles/iceProj.png', 'projectiles/lightProj.png']
 magic = pygame.sprite.Group()
@@ -54,14 +54,14 @@ heroGroup = pygame.sprite.Group(player)
 for chest in items:
 	chest.target = player
 	allSprites.add(chest)
-for sp in exit:
+for sp in por:
     sp.target = player
     allSprites.add(sp)
 for enemy in enemies:
 	enemy.target = player
 	allSprites.add(enemy)
 enemyGroup = pygame.sprite.Group(enemies)
-exitGroup = pygame.sprite.Group(exit)
+exitGroup = pygame.sprite.Group(por)
 
 #-----------------------Load images-----------------------
 img = pygame.image.load('images/bot_wall.jpg').convert()
@@ -107,6 +107,9 @@ while not level1.isComplete(exitGroup):
     hp = player.health
     textsurface = myfont.render('Health: %d' %(hp), False, (255, 255, 255))
     screen.blit(textsurface,(0,0))
+    myfont = pygame.font.SysFont('Comic Sans MS', 35)
+    textsurface = myfont.render('Level 1 - Room 1', False, (255, 255, 255))
+    screen.blit(textsurface,(425,0))
     """
         myfont = pygame.font.SysFont('Comic Sans MS', 50)
         textsurface = myfont.render('Who is the best teacher?', False, (255, 255, 255))
@@ -120,10 +123,14 @@ while not level1.isComplete(exitGroup):
         screen.blit(textsurface,(450,335))
     """
     if level1.isComplete(enemyGroup):
-        for sp in exit:
+        for sp in por:
             sp.target = player
             sp.rect.center = (300,350)
             allSprites.add(sp)
+    if level1.isComplete(heroGroup):
+        myfont = pygame.font.SysFont('Comic Sans MS', 50)
+        textsurface = myfont.render('"Mr.Stark I dont feel so good..."', False, (255, 255, 255))
+        screen.blit(textsurface,(100,300))
     allSprites.update(pygame.key.get_pressed())
     allSprites.draw(screen)
     pygame.display.flip()   #ACTUALLY display all the images
@@ -142,8 +149,8 @@ L2 = [['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-','-','-','!
 allSprites2 = pygame.sprite.Group()
 enemies = []
 items = []
-exit = []
-level2 = level.level(L2, enemies,items,exit)
+por = []
+level2 = level.level(L2, enemies,items,por)
 level2.makeLevel()
 element = ['projectiles/fireProj.png', 'projectiles/iceProj.png', 'projectiles/lightProj.png']
 magic = pygame.sprite.Group()
@@ -157,13 +164,13 @@ heroGroup = pygame.sprite.Group(player)
 for chest in items:
     chest.target = player
     allSprites2.add(chest)
-for sp in exit:
+for sp in por:
     sp.target = player
     allSprites2.add(sp)
 for enemy in enemies:
     enemy.target = player
     allSprites2.add(enemy)
-exitGroup = pygame.sprite.Group(exit)
+exitGroup = pygame.sprite.Group(por)
 itemsGroup = pygame.sprite.Group(items)
 
 tabCount = 0
@@ -190,14 +197,21 @@ while not level2.isComplete(exitGroup):
     screen.fill((0,0,0))                #reset screen, for clean animation
     background.makeBackground(screen, img, wallDown, sFloor, floor, tFloor, cFloor)
     if level2.isComplete(itemsGroup):
-        for sp in exit:
+        for sp in por:
             sp.target = player
             sp.rect.center = (300,350)
             allSprites2.add(sp)
+    if level2.isComplete(heroGroup):
+        myfont = pygame.font.SysFont('Comic Sans MS', 50)
+        textsurface = myfont.render('"Mr.Stark I dont feel so good..."', False, (255, 255, 255))
+        screen.blit(textsurface,(100,300))
     myfont = pygame.font.SysFont('Comic Sans MS', 50)
     hp = player.health
     textsurface = myfont.render('Health: %d' %(hp), False, (255, 255, 255))
     screen.blit(textsurface,(0,0))
+    myfont = pygame.font.SysFont('Comic Sans MS', 35)
+    textsurface = myfont.render('Level 1 - Room 2', False, (255, 255, 255))
+    screen.blit(textsurface,(425,0))
     allSprites2.update(pygame.key.get_pressed())
     allSprites2.draw(screen)
     pygame.display.flip()   #ACTUALLY display all the images
