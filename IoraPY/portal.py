@@ -2,7 +2,7 @@ import pygame
 import player
 import sprites
 
-class chest(sprites.sprites):
+class portal(sprites.sprites):
 
 	def __init__(self, image, position, obstacles):
 		sprites.sprites.__init__(self, image, position)
