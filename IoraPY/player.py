@@ -10,7 +10,7 @@ class player(sprites.sprites):
         self.obstacles = obstacles
         self.direction = 'down'
         self.hit = False
-        self.speed = 10
+        self.speed = 2
         self.leftAnim = self.loadAnimSprite('Character/LeftAnim')
         self.rightAnim = self.loadAnimSprite('Character/RightAnim')
         self.upAnim = self.loadAnimSprite('Character/UpAnim')

@@ -32,21 +32,13 @@ L1 = [['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
       ['-', '-', '#', '-', '-', '-', '-', '-', '-', '-', '-', '#', '-'],
       ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-']]
 
-L2 = [['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
-      ['-', '-', '#', '#', '#', '-', '-', '-', '#', '#', '#', '-', '-'],
-      ['-', '-', '#', 'X', '#', '-', '-', '-', '#', 'X', '#', '-'],
-      ['-', '-', '#', '#', '#', '-', '-', '-', '#', '#', '#', '-'],
-      ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
-      ['-', '-', '*', '-', '-', '-', '*', '-', '-', '-', '*', '-'],
-      ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
-      ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-']]
 
 
 #--------------Create some sprite variables--------------
 allSprites = pygame.sprite.Group()
 enemies = []
 items = []
-level1 = level.level(L2, enemies,items)
+level1 = level.level(L1, enemies,items)
 level1.makeLevel()
 element = ['projectiles/fireProj.png', 'projectiles/iceProj.png', 'projectiles/lightProj.png']
 magic = pygame.sprite.Group()
@@ -77,35 +69,36 @@ title = titleScreen.titleScreen(lValue)
 #---------------------Game Loop--------------------------
 tabCount = 0
 chosenElement = element[0]      #defualt to fire
-while 1:
 
-    while not title.isFinished():
-        screen.fill((0,0,0))
-        title.startTitle(screen)
-        pygame.display.flip()
-    printer = 0
-    while not level1.isComplete(enemyGroup):
+while not title.isFinished():
+    screen.fill((0,0,0))
+    title.startTitle(screen)
+    pygame.display.flip()
+printer = 0
 
-        pygame.event.pump()
-        xCounter = yCounter = 0
-        for event in pygame.event.get():    #event handler, checks for key presses (not holds)
-            if event.type == pygame.QUIT:
-                exit()
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_TAB:
-                    tabCount+=1
-                    if tabCount >= len(element):
-                        tabCount = 0
-                    chosenElement = element[tabCount]
-                    print(tabCount)
-                elif event.key == pygame.K_SPACE and player.alive():
-                    allSprites.add(projectiles.projectiles(player, chosenElement, enemies, player.rect.center))
-                    magic.add(projectiles.projectiles(player, chosenElement, enemies, player.rect.center))
+while not level1.isComplete(enemyGroup):
+
+    pygame.event.pump()
+    xCounter = yCounter = 0
+    for event in pygame.event.get():    #event handler, checks for key presses (not holds)
+        if event.type == pygame.QUIT:
+            exit()
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_TAB:
+                tabCount+=1
+                if tabCount >= len(element):
+                    tabCount = 0
+                chosenElement = element[tabCount]
+                print(tabCount)
+            elif event.key == pygame.K_SPACE and player.alive():
+                allSprites.add(projectiles.projectiles(player, chosenElement, enemies, player.rect.center))
+                magic.add(projectiles.projectiles(player, chosenElement, enemies, player.rect.center))
 
 
 
-        screen.fill((0,0,0))                #reset screen, for clean animation
-        background.makeBackground(screen, img, wallDown, sFloor, floor, tFloor, cFloor)
+    screen.fill((0,0,0))                #reset screen, for clean animation
+    background.makeBackground(screen, img, wallDown, sFloor, floor, tFloor, cFloor)
+    """
         myfont = pygame.font.SysFont('Comic Sans MS', 50)
         textsurface = myfont.render('Who is the best teacher?', False, (255, 255, 255))
         screen.blit(textsurface,(150,235))
@@ -116,8 +109,71 @@ while 1:
         screen.blit(textsurface,(250,335))
         textsurface = myfont.render('Not Sharanya', False, (255, 255, 255))
         screen.blit(textsurface,(450,335))
-        allSprites.update(pygame.key.get_pressed())
-        allSprites.draw(screen)
-        pygame.display.flip()   #ACTUALLY display all the images
-        clock.tick(60)      #all animation and timing is based on this 60fps counter
-    exit()
+    """
+    allSprites.update(pygame.key.get_pressed())
+    allSprites.draw(screen)
+    pygame.display.flip()   #ACTUALLY display all the images
+    clock.tick(60)      #all animation and timing is based on this 60fps counter
+
+L2 = [['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
+          ['-', '-', '#', '#', '#', '-', '-', '-', '#', '#', '#', '-', '-'],
+          ['-', '-', '#', 'X', '#', '-', '-', '-', '#', 'X', '#', '-'],
+          ['-', '-', '#', '#', '#', '-', '-', '-', '#', '#', '#', '-'],
+          ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
+          ['-', '-', '*', '-', '-', '-', '*', '-', '-', '-', '*', '-'],
+          ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
+          ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-']]
+
+    #--------------Create some sprite variables--------------
+allSprites = pygame.sprite.Group()
+enemies = []
+items = []
+level2 = level.level(L2, enemies,items)
+level2.makeLevel()
+element = ['projectiles/fireProj.png', 'projectiles/iceProj.png', 'projectiles/lightProj.png']
+magic = pygame.sprite.Group()
+obstacles = level2.boxes
+obstacleGroup = pygame.sprite.Group()
+for spr in level2.boxes:
+    allSprites.add(spr)
+    obstacleGroup.add(spr)
+allSprites.add(player)
+heroGroup = pygame.sprite.Group(player)
+for chest in items:
+    chest.target = player
+    allSprites.add(chest)
+for enemy in enemies:
+    enemy.target = player
+    allSprites.add(enemy)
+enemyGroup = pygame.sprite.Group(enemies)
+
+tabCount = 0
+chosenElement = element[0]      #defualt to fire
+
+    #-----------------------Load images----------------------
+while not level2.isComplete(enemyGroup):
+
+    pygame.event.pump()
+    xCounter = yCounter = 0
+    for event in pygame.event.get():    #event handler, checks for key presses (not holds)
+        if event.type == pygame.QUIT:
+            exit()
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_TAB:
+                tabCount+=1
+                if tabCount >= len(element):
+                    tabCount = 0
+                chosenElement = element[tabCount]
+                print(tabCount)
+            elif event.key == pygame.K_SPACE and player.alive():
+                allSprites.add(projectiles.projectiles(player, chosenElement, enemies, player.rect.center))
+                magic.add(projectiles.projectiles(player, chosenElement, enemies, player.rect.center))
+    screen.fill((0,0,0))                #reset screen, for clean animation
+    background.makeBackground(screen, img, wallDown, sFloor, floor, tFloor, cFloor)
+    allSprites.update(pygame.key.get_pressed())
+    allSprites.draw(screen)
+    pygame.display.flip()   #ACTUALLY display all the images
+    clock.tick(60)      #all animation and timing is based on this 60fps counter
+
+
+exit()
