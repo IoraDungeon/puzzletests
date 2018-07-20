@@ -27,7 +27,7 @@ class player(sprites.sprites):
         for num in range(len(self.animPos)):
             if self.animPos[num] > 3:
                 self.animPos[num] = 0
-        if self.health == 0:
+        if self.health <= 0:
             self.kill()
         if keys[pygame.K_DOWN]:
             if self.inBoundsDown():

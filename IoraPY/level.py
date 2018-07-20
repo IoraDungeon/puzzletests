@@ -7,12 +7,15 @@ import enemy
 import portal
 
 class level():
-	def __init__(self, design, enemies,items,portal):	  #design is a 2d list
+	def __init__(self, design, enemies,chest1,chest2,chest3,portal,screen):	  #design is a 2d list
 		self.boxGroup = pygame.sprite.Group()
 		self.boxes = []
 		self.enemies = enemies
+		self.chest1 = chest1
+		self.chest2 = chest2
+		self.chest3 = chest3
 		self.exit = portal
-		self.items = items
+		self.screen = screen
 		self.design = design
 		self.isPuzzleDone = False
 
@@ -50,7 +53,28 @@ class level():
 			for y in x:
 				print(y)
 				if y is '*':
-					self.items.append(chest.chest('Obstacles/chest.png', (xSpot, ySpot), self.boxes))
+					self.chest1.append(chest.chest('Obstacles/chest.png', (xSpot, ySpot), self.boxes,1,self.screen))
+				xSpot+=48
+			xSpot=0
+			ySpot+=58
+		xSpot = 16
+		ySpot = 16
+		for x in self.design:
+			for y in x:
+				print(y)
+				if y is '%':
+					self.chest2.append(chest.chest('Obstacles/chest.png', (xSpot, ySpot), self.boxes,2,self.screen))
+				xSpot+=48
+			xSpot=0
+			ySpot+=58
+
+		xSpot = 16
+		ySpot = 16
+		for x in self.design:
+			for y in x:
+				print(y)
+				if y is '$':
+					self.chest3.append(chest.chest('Obstacles/chest.png', (xSpot, ySpot), self.boxes,3,self.screen))
 				xSpot+=48
 			xSpot=0
 			ySpot+=58
