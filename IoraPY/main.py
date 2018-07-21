@@ -11,7 +11,7 @@ import time
 
 
 def start():
-    #---------------------Game Loop--------------------------
+    ### First Room Stuff
     hp = player.health
     tabCount = 0
     chosenElement = element[0]      #defualt to fire
@@ -22,6 +22,7 @@ def start():
         pygame.display.flip()
     printer = 0
 
+    ### Room Loop
     while not level1.isComplete(exitGroup):
 
         pygame.event.pump()
@@ -40,20 +41,25 @@ def start():
                     allSprites.add(projectiles.projectiles(player, chosenElement, enemies, player.rect.center))
                     magic.add(projectiles.projectiles(player, chosenElement, enemies, player.rect.center))
 
-
-
         screen.fill((0,0,0))                #reset screen, for clean animation
+
+        ### On-Screen Text
         background.makeBackground(screen, img, wallDown, sFloor, floor, tFloor, cFloor)
         myfont = pygame.font.SysFont('Comic Sans MS', 50)
+        hp = player.health
         textsurface = myfont.render('Health: %d' %(hp), False, (255, 255, 255))
         screen.blit(textsurface,(0,0))
         myfont = pygame.font.SysFont('Comic Sans MS', 35)
         textsurface = myfont.render('Level 1 - Room 1', False, (255, 255, 255))
         screen.blit(textsurface,(425,0))
-
         myfont = pygame.font.SysFont('Comic Sans MS', 25)
         textsurface = myfont.render('Welcome to the dungeon', False, (255, 255, 255))
         screen.blit(textsurface,(425,25))
+        if level1.isComplete(heroGroup):
+            myfont = pygame.font.SysFont('Comic Sans MS', 50)
+            textsurface = myfont.render('"Dead already?!"', False, (255, 255, 255))
+            screen.blit(textsurface,(100,300))
+        ### Exit Portal
         if level1.isComplete(enemyGroup):
             for sp in por:
                 sp.target = player
@@ -61,10 +67,7 @@ def start():
                 allSprites.add(sp)
                 textsurface = myfont.render('"Exit has appeared!"', False, (255, 255, 255))
                 screen.blit(textsurface,(100,300))
-        if level1.isComplete(heroGroup):
-            myfont = pygame.font.SysFont('Comic Sans MS', 50)
-            textsurface = myfont.render('"Dead already?!"', False, (255, 255, 255))
-            screen.blit(textsurface,(100,300))
+        ### Keeps room running
         allSprites.update(pygame.key.get_pressed())
         allSprites.draw(screen)
         pygame.display.flip()   #ACTUALLY display all the images
@@ -72,6 +75,7 @@ def start():
 
 
 def level2(screen):
+    ### RoomS Design
     L2 = [['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-','-','-','!'],
           ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-'],
           ['-', '-', '-', '$', '-', '-', '*', '-', '-', '%','-', '-', '-'],
@@ -123,7 +127,7 @@ def level2(screen):
     tabCount = 0
     chosenElement = element[0]      #defualt to fire
 
-        #-----------------------Load images----------------------
+    ### Room Loop
     while not level2.isComplete(exitGroup):
 
         pygame.event.pump()
@@ -143,6 +147,7 @@ def level2(screen):
                     magic.add(projectiles.projectiles(player, chosenElement, enemies, player.rect.center))
         screen.fill((0,0,0))                #reset screen, for clean animation
         background.makeBackground(screen, img, wallDown, sFloor, floor, tFloor, cFloor)
+        ### Exit Portal
         if level2.isComplete(chest1Group):
             for sp in por:
                 sp.target = player
@@ -150,10 +155,12 @@ def level2(screen):
                 allSprites2.add(sp)
                 textsurface = myfont.render('"Exit has appeared!"', False, (255, 255, 255))
                 screen.blit(textsurface,(100,300))
+
+        ### On-Screen Text
         if level2.isComplete(heroGroup):
             myfont = pygame.font.SysFont('Comic Sans MS', 50)
             textsurface = myfont.render('"Mr.Stark I dont feel so good..."', False, (255, 255, 255))
-            screen.blit(textsurface,(100,300))
+            screen.blit(textsurface,(100,400))
         if level2.isComplete(chest3Group):
             myfont = pygame.font.SysFont('Comic Sans MS', 20)
             textsurface = myfont.render('Radiation Effects : -2 HP', False, (255, 255, 255))
@@ -172,16 +179,19 @@ def level2(screen):
         myfont = pygame.font.SysFont('Comic Sans MS', 25)
         textsurface = myfont.render('Get some hair on your chest', False, (255, 255, 255))
         screen.blit(textsurface,(405,25))
+
+        ### Loop Stuff
         allSprites2.update(pygame.key.get_pressed())
         allSprites2.draw(screen)
         pygame.display.flip()   #ACTUALLY display all the images
         clock.tick(60)      #all animation and timing is based on this 60fps counter
 
 def level3(screen):
+    ### Room Design
     L3 = [['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-','-','-','!'],
-          ['-', '-', '-', '#', '-', '-', 'X', '-', '#', '-','-', '-', '-'],
-          ['-', '-', '-', 'X', '-', '-', 'X', '-', '-', 'X','¡', '-', '-'],
-          ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-'],
+          ['-', '-', '-', 'X', '-', '-', 'X', '-', '#', '-','-', '%', '-'],
+          ['-', '-', '-', 'X', 'X', '-', 'X', '-', '-', 'X','¡', '-', '-'],
+          ['-', '-', 'X', '-', '-', '-', '-', '-', '-', '-','-', '-', '-'],
           ['-', '-', '-', '-', '#', '-', '#', '-', '#', '-','#', '-', '-'],
           ['-', '-', '#', '-', '-', '-', '-', '-', '#', '-','-', '-', '-'],
           ['-', '¡', '-', '-', '-', '-', '-', '-', '-', '-','-', '#', '-'],
@@ -206,7 +216,7 @@ def level3(screen):
     for spr in level3.boxes:
         allSprites3.add(spr)
         obstacleGroup.add(spr)
-        spr.target = player
+        player.obstacles.append(spr)
     for chest in chest1:
         chest.target = player
         allSprites3.add(chest)
@@ -231,7 +241,7 @@ def level3(screen):
     tabCount = 0
     chosenElement = element[0]      #defualt to fire
 
-        #-----------------------Load images----------------------
+    ### Room Loop
     while not level3.isComplete(exitGroup):
 
         pygame.event.pump()
@@ -251,6 +261,7 @@ def level3(screen):
                     magic.add(projectiles.projectiles(player, chosenElement, enemies, player.rect.center))
         screen.fill((0,0,0))                #reset screen, for clean animation
         background.makeBackground(screen, img, wallDown, sFloor, floor, tFloor, cFloor)
+        ### On-Screen Text
         if level3.isComplete(enemygroup):
             for sp in por:
                 sp.target = player
@@ -263,6 +274,10 @@ def level3(screen):
             myfont = pygame.font.SysFont('Comic Sans MS', 50)
             textsurface = myfont.render('"Mr.Stark I dont feel so good..."', False, (255, 255, 255))
             screen.blit(textsurface,(100,300))
+        if level3.isComplete(chest2Group):
+            myfont = pygame.font.SysFont('Comic Sans MS', 20)
+            textsurface = myfont.render('Health Bonus : +1 HP', False, (255, 255, 255))
+            screen.blit(textsurface,(50,40))
         myfont = pygame.font.SysFont('Comic Sans MS', 50)
         hp = player.health
         textsurface = myfont.render('Health: %d' %(hp), False, (255, 255, 255))
@@ -273,6 +288,7 @@ def level3(screen):
         myfont = pygame.font.SysFont('Comic Sans MS', 25)
         textsurface = myfont.render('More dungeon stuff', False, (255, 255, 255))
         screen.blit(textsurface,(415,25))
+        ### Loop Stuff
         allSprites3.update(pygame.key.get_pressed())
         allSprites3.draw(screen)
         pygame.display.flip()   #ACTUALLY display all the images
@@ -299,7 +315,7 @@ clock = pygame.time.Clock()     #keeps track of the fps and stuff
 check = 1
 
 
-# Lets run some looooops!
+### Level 1 -Room 1 Loop
 while check != 0:
     L1 = [['-', '-', '-', 'X', 'X', '-', '-', '-', '-', 'X','X', '-', '-','-','-','!'],
           ['-', '-', '#', '-', 'X', '-', '-', '-', '-', 'X','-', '#', '-'],
