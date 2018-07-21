@@ -40,6 +40,18 @@ class level():
 		for x in self.design:
 			for y in x:
 				print(y)
+				if y is '¡':
+					self.boxes.append(sprites.sprites('Obstacles/torch.gif', (xSpot, ySpot)))
+					self.boxGroup.add(self.boxes[counter])
+					counter+=1
+				xSpot+=48
+			xSpot=0
+			ySpot+=58
+		xSpot = 16
+		ySpot = 16
+		for x in self.design:
+			for y in x:
+				print(y)
 				if y is '!':
 					self.exit.append(portal.portal('images/portal.png', (xSpot, ySpot), self.boxes))
 				xSpot+=48
